@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_scrollable/screen/home_screen.dart';
 
 void main() {
   return runApp(
@@ -6,17 +7,4 @@ void main() {
       home: HomeScreen(),
     ),
   );
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Home Screen'),
-      ),
-    );
-  }
 }
