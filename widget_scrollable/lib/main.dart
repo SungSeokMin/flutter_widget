@@ -3,7 +3,7 @@ import 'package:widget_scrollable/screen/home_screen.dart';
 
 void main() {
   return runApp(
-    const MaterialApp(
+    MaterialApp(
       home: HomeScreen(),
     ),
   );
