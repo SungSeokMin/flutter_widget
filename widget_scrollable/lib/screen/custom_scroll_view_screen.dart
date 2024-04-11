@@ -1,6 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:widget_scrollable/const/colors.dart';
 
+class _SliverFixedHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final double maxHeight;
+  final double minHeight;
+
+  _SliverFixedHeaderDelegate({
+    required this.child,
+    required this.maxHeight,
+    required this.minHeight,
+  });
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(
+      child: child,
+    );
+  }
+
+  // 최대 높이
+  @override
+  double get maxExtent => maxHeight;
+
+  // 최소 높이
+  @override
+  double get minExtent => minHeight;
+
+  // oldDelegate: build가 실행이 됐을때 이전 delegate
+  // this: 새로운 delegate
+  // shouldRebuild: 새로 build를 해야할지 말지 결정
+  @override
+  bool shouldRebuild(_SliverFixedHeaderDelegate oldDelegate) {
+    return oldDelegate.minHeight != minHeight ||
+        oldDelegate.maxHeight != maxHeight ||
+        oldDelegate.child != child;
+  }
+}
+
 class CustomScrollViewScreen extends StatelessWidget {
   final List<int> numbers = List.generate(100, (index) => index);
 
@@ -12,8 +49,28 @@ class CustomScrollViewScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           renderSliverAppBar(),
+          renderSliverPersistentHeader(),
           renderChildSliverList(),
         ],
+      ),
+    );
+  }
+
+  // SliverPersistentHeader
+  SliverPersistentHeader renderSliverPersistentHeader() {
+    return SliverPersistentHeader(
+      delegate: _SliverFixedHeaderDelegate(
+        child: Container(
+          color: Colors.black,
+          child: const Center(
+            child: Text(
+              '신기하지!',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+        minHeight: 75,
+        maxHeight: 150,
       ),
     );
   }
